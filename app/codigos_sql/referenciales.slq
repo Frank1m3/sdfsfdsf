@@ -1,0 +1,64 @@
+CREATE TABLE
+	marcas(
+		id serial PRIMARY KEY
+		, descripcion varchar(60) UNIQUE
+	);
+    CREATE TABLE
+	tarjetas(
+		id serial PRIMARY KEY
+		, descripcion varchar(60) UNIQUE
+	);
+
+    CREATE TABLE
+	marcas(
+		id serial PRIMARY KEY
+		, descripcion varchar(60) UNIQUE
+	);
+
+    CREATE TABLE
+	marcas(
+		id serial PRIMARY KEY
+		, descripcion varchar(60) UNIQUE
+	);
+
+    CREATE TABLE
+	marcas(
+		id serial PRIMARY KEY
+		, descripcion varchar(60) UNIQUE
+	);
+
+    CREATE TABLE
+	marcas(
+		id serial PRIMARY KEY
+		, descripcion varchar(60) UNIQUE
+	);
+
+CREATE TABLE
+	marcas(
+		id serial PRIMARY KEY
+		, descripcion varchar(60) UNIQUE
+	);
+
+    CREATE TABLE
+	marcas(
+		id serial PRIMARY KEY
+		, descripcion varchar(60) UNIQUE
+	);
+
+    CREATE TABLE
+	marcas(
+		id serial PRIMARY KEY
+		, descripcion varchar(60) UNIQUE
+	);
+
+    CREATE TABLE
+	marcas(
+		id serial PRIMARY KEY
+		, descripcion varchar(60) UNIQUE
+	);
+
+    CREATE TABLE
+	marcas(
+		id serial PRIMARY KEY
+		, descripcion varchar(60) UNIQUE
+	);
