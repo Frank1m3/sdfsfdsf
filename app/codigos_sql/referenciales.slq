@@ -16,25 +16,25 @@ CREATE TABLE
 	);
 
     CREATE TABLE
-	marcas(
+	nacionalidades(
 		id serial PRIMARY KEY
 		, descripcion varchar(60) UNIQUE
 	);
 
     CREATE TABLE
-	marcas(
+	supermercados(
 		id serial PRIMARY KEY
 		, descripcion varchar(60) UNIQUE
 	);
 
     CREATE TABLE
-	marcas(
+	cargos(
 		id serial PRIMARY KEY
 		, descripcion varchar(60) UNIQUE
 	);
 
 CREATE TABLE
-	marcas(
+	hospitales(
 		id serial PRIMARY KEY
 		, descripcion varchar(60) UNIQUE
 	);

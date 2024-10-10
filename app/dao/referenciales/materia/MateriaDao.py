@@ -2,65 +2,62 @@
 from flask import current_app as app
 from app.conexion.Conexion import Conexion
 
-class HospitalDao:
+class MateriaDao:
 
-    def getHospitales(self):
-
-        hospitalSQL = """
+    def getMaterias(self):
+        materiaSQL = """
         SELECT id, descripcion
-        FROM hospitales
+        FROM materias
         """
         # objeto conexion
         conexion = Conexion()
         con = conexion.getConexion()
         cur = con.cursor()
         try:
-            cur.execute(hospitalSQL)
-            hospitales = cur.fetchall()  # trae datos de la bd
+            cur.execute(materiaSQL)
+            materias = cur.fetchall()  # trae datos de la bd
 
             # Transformar los datos en una lista de diccionarios
-            return [{'id': hospital[0], 'descripcion': hospital[1]} for hospital in hospitales]
+            return [{'id': materia[0], 'descripcion': materia[1]} for materia in materias]
 
         except Exception as e:
-            app.logger.error(f"Error al obtener todas los hospitales: {str(e)}")
+            app.logger.error(f"Error al obtener todas las materias: {str(e)}")
             return []
 
         finally:
             cur.close()
             con.close()
 
-    def getHospitalById(self, id):
-
-        hospitalSQL = """
+    def getMateriaById(self, id):
+        materiaSQL = """
         SELECT id, descripcion
-        FROM hospitales WHERE id=%s
+        FROM materias WHERE id=%s
         """
         # objeto conexion
         conexion = Conexion()
         con = conexion.getConexion()
         cur = con.cursor()
         try:
-            cur.execute(hospitalSQL, (id,))
-            hospitalEncontrada = cur.fetchone()  # Obtener una sola fila
-            if hospitalEncontrada:
+            cur.execute(materiaSQL, (id,))
+            materiaEncontrada = cur.fetchone()  # Obtener una sola fila
+            if materiaEncontrada:
                 return {
-                        "id": hospitalEncontrada[0],
-                        "descripcion": hospitalEncontrada[1]
-                    }  # Retornar los datos
+                    "id": materiaEncontrada[0],
+                    "descripcion": materiaEncontrada[1]
+                }  # Retornar los datos
             else:
-                return None  # Retornar None si no se encuentra cargo
+                return None  # Retornar None si no se encuentra la materia
         except Exception as e:
-            app.logger.error(f"Error al obtener hospital {str(e)}")
+            app.logger.error(f"Error al obtener materia {str(e)}")
             return None
 
         finally:
             cur.close()
             con.close()
 
-    def guardarHospital(self, descripcion):
-
-        insertHospitalSQL = """
-        INSERT INTO hospitales(descripcion) VALUES(%s) RETURNING id
+    def guardarMateria(self, descripcion):
+        insertMateriaSQL = """
+        INSERT INTO materias(descripcion) VALUES(%s) RETURNING id
         """
 
         conexion = Conexion()
@@ -69,14 +66,14 @@ class HospitalDao:
 
         # Ejecucion exitosa
         try:
-            cur.execute(insertHospitalSQL, (descripcion,))
-            hospital_id = cur.fetchone()[0]
+            cur.execute(insertMateriaSQL, (descripcion,))
+            materia_id = cur.fetchone()[0]
             con.commit()  # se confirma la insercion
-            return hospital_id
+            return materia_id
 
-        # Si algo fallo entra aqui
+        # Si algo fallo entra aquí
         except Exception as e:
-            app.logger.error(f"Error al insertar hospital: {str(e)}")
+            app.logger.error(f"Error al insertar materia: {str(e)}")
             con.rollback()  # retroceder si hubo error
             return False
 
@@ -85,10 +82,9 @@ class HospitalDao:
             cur.close()
             con.close()
 
-    def updateHospital(self, id, descripcion):
-
-        updateHospitalSQL = """
-        UPDATE hospitales
+    def updateMateria(self, id, descripcion):
+        updateMateriaSQL = """
+        UPDATE materias
         SET descripcion=%s
         WHERE id=%s
         """
@@ -98,14 +94,14 @@ class HospitalDao:
         cur = con.cursor()
 
         try:
-            cur.execute(updateHospitalSQL, (descripcion, id,))
+            cur.execute(updateMateriaSQL, (descripcion, id,))
             filas_afectadas = cur.rowcount  # Obtener el número de filas afectadas
             con.commit()
 
             return filas_afectadas > 0  # Retornar True si se actualizó al menos una fila
 
         except Exception as e:
-            app.logger.error(f"Error al actualizar hospital: {str(e)}")
+            app.logger.error(f"Error al actualizar materia: {str(e)}")
             con.rollback()
             return False
 
@@ -113,10 +109,9 @@ class HospitalDao:
             cur.close()
             con.close()
 
-    def deleteHospital(self, id):
-
-        deleteHospitalSQL = """
-        DELETE FROM hospitales
+    def deleteMateria(self, id):
+        deleteMateriaSQL = """
+        DELETE FROM materias
         WHERE id=%s
         """
 
@@ -125,14 +120,14 @@ class HospitalDao:
         cur = con.cursor()
 
         try:
-            cur.execute(deleteHospitalSQL, (id,))
+            cur.execute(deleteMateriaSQL, (id,))
             rows_affected = cur.rowcount
             con.commit()
 
             return rows_affected > 0  # Retornar True si se eliminó al menos una fila
 
         except Exception as e:
-            app.logger.error(f"Error al eliminar hospital: {str(e)}")
+            app.logger.error(f"Error al eliminar materia: {str(e)}")
             con.rollback()
             return False
 

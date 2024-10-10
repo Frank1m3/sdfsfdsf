@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospitales</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+</head>
+<body>
+
+    <div class="container mt-4">
+        <h3>Editar Hospitales</h3>
+
+        <div class="row">
+          
+            <div class="col col-md-6">
+
+        
+                <form action="{{ url_for('actualizarHospital') }}" method="post">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">Información del registro</div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <input type="hidden" name="txtIdHospital" value="{{ hospital['id'] }}">
+                                <label for="txtDescripcion">Descripción:</label>
+                                <input type="text" class="form-control" placeholder="Ingrese algun hospital" name="txtDescripcion" id="txtDescripcion" value="{{ hospital['descripcion'] }}">
+                            </div>
+
+                            {# Esta bloque busca el mensaje de error #}
+                            {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }}">
+                                    <strong>Mensaje al usuario!</strong> {{ message }}
+                                </div>
+                                {% endfor %}
+                            {% endif %}
+                            {% endwith %}
+
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-warning" name="btnGuardar" id="btnGuardar">Actualizar</button>
+                        </div>
+                    </div>
+                </form>
+                <!--  -->
+
+            </div>
+            <!--  -->
+        </div>
+
+        <div class="row mt-4 d-none" id="rowAlerta">
+            <div class="col col-md-12">
+                <div class="alert alert-success">
+                    <strong>Registro excelente!</strong>
+                    <div class="row" id="mostrarAlerta"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+</body>
+</html>

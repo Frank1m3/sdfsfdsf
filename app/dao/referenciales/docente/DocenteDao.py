@@ -2,65 +2,65 @@
 from flask import current_app as app
 from app.conexion.Conexion import Conexion
 
-class HospitalDao:
+class DocenteDao:
 
-    def getHospitales(self):
+    def getDocentes(self):
 
-        hospitalSQL = """
+        docenteSQL = """
         SELECT id, descripcion
-        FROM hospitales
+        FROM docentes
         """
         # objeto conexion
         conexion = Conexion()
         con = conexion.getConexion()
         cur = con.cursor()
         try:
-            cur.execute(hospitalSQL)
-            hospitales = cur.fetchall()  # trae datos de la bd
+            cur.execute(docenteSQL)
+            docentes = cur.fetchall()  # trae datos de la bd
 
             # Transformar los datos en una lista de diccionarios
-            return [{'id': hospital[0], 'descripcion': hospital[1]} for hospital in hospitales]
+            return [{'id': docente[0], 'descripcion': docente[1]} for docente in docentes]
 
         except Exception as e:
-            app.logger.error(f"Error al obtener todas los hospitales: {str(e)}")
+            app.logger.error(f"Error al obtener todos los docentes: {str(e)}")
             return []
 
         finally:
             cur.close()
             con.close()
 
-    def getHospitalById(self, id):
+    def getDocenteById(self, id):
 
-        hospitalSQL = """
+        docenteSQL = """
         SELECT id, descripcion
-        FROM hospitales WHERE id=%s
+        FROM docentes WHERE id=%s
         """
         # objeto conexion
         conexion = Conexion()
         con = conexion.getConexion()
         cur = con.cursor()
         try:
-            cur.execute(hospitalSQL, (id,))
-            hospitalEncontrada = cur.fetchone()  # Obtener una sola fila
-            if hospitalEncontrada:
+            cur.execute(docenteSQL, (id,))
+            docenteEncontrada = cur.fetchone()  # Obtener una sola fila
+            if docenteEncontrada:
                 return {
-                        "id": hospitalEncontrada[0],
-                        "descripcion": hospitalEncontrada[1]
+                        "id": docenteEncontrada[0],
+                        "descripcion": docenteEncontrada[1]
                     }  # Retornar los datos
             else:
-                return None  # Retornar None si no se encuentra cargo
+                return None  # Retornar None si no se encuentra el docente
         except Exception as e:
-            app.logger.error(f"Error al obtener hospital {str(e)}")
+            app.logger.error(f"Error al obtener docente {str(e)}")
             return None
 
         finally:
             cur.close()
             con.close()
 
-    def guardarHospital(self, descripcion):
+    def guardarDocente(self, descripcion):
 
-        insertHospitalSQL = """
-        INSERT INTO hospitales(descripcion) VALUES(%s) RETURNING id
+        insertDocenteSQL = """
+        INSERT INTO docentes(descripcion) VALUES(%s) RETURNING id
         """
 
         conexion = Conexion()
@@ -69,14 +69,14 @@ class HospitalDao:
 
         # Ejecucion exitosa
         try:
-            cur.execute(insertHospitalSQL, (descripcion,))
-            hospital_id = cur.fetchone()[0]
+            cur.execute(insertDocenteSQL, (descripcion,))
+            docente_id = cur.fetchone()[0]
             con.commit()  # se confirma la insercion
-            return hospital_id
+            return docente_id
 
         # Si algo fallo entra aqui
         except Exception as e:
-            app.logger.error(f"Error al insertar hospital: {str(e)}")
+            app.logger.error(f"Error al insertar docente: {str(e)}")
             con.rollback()  # retroceder si hubo error
             return False
 
@@ -85,10 +85,10 @@ class HospitalDao:
             cur.close()
             con.close()
 
-    def updateHospital(self, id, descripcion):
+    def updateDocente(self, id, descripcion):
 
-        updateHospitalSQL = """
-        UPDATE hospitales
+        updateDocenteSQL = """
+        UPDATE docentes
         SET descripcion=%s
         WHERE id=%s
         """
@@ -98,14 +98,14 @@ class HospitalDao:
         cur = con.cursor()
 
         try:
-            cur.execute(updateHospitalSQL, (descripcion, id,))
+            cur.execute(updateDocenteSQL, (descripcion, id,))
             filas_afectadas = cur.rowcount  # Obtener el número de filas afectadas
             con.commit()
 
             return filas_afectadas > 0  # Retornar True si se actualizó al menos una fila
 
         except Exception as e:
-            app.logger.error(f"Error al actualizar hospital: {str(e)}")
+            app.logger.error(f"Error al actualizar docente: {str(e)}")
             con.rollback()
             return False
 
@@ -113,10 +113,10 @@ class HospitalDao:
             cur.close()
             con.close()
 
-    def deleteHospital(self, id):
+    def deleteDocente(self, id):
 
-        deleteHospitalSQL = """
-        DELETE FROM hospitales
+        deleteDocenteSQL = """
+        DELETE FROM docentes
         WHERE id=%s
         """
 
@@ -125,17 +125,17 @@ class HospitalDao:
         cur = con.cursor()
 
         try:
-            cur.execute(deleteHospitalSQL, (id,))
+            cur.execute(deleteDocenteSQL, (id,))
             rows_affected = cur.rowcount
             con.commit()
 
             return rows_affected > 0  # Retornar True si se eliminó al menos una fila
 
         except Exception as e:
-            app.logger.error(f"Error al eliminar hospital: {str(e)}")
+            app.logger.error(f"Error al eliminar docente: {str(e)}")
             con.rollback()
             return False
 
         finally:
             cur.close()
-            con.close()
+            con.close()   

@@ -1,23 +1,23 @@
 {% extends 'base.html' %}
 
 {% block titulo %}
-Marcas
+Docentes
 {% endblock %}
 
 {% block contenido %}
 <div class="container mt-4">
-    <h3>Listar Marcas</h3>
+    <h3>Listar Docentes</h3>
 
-    <!-- tarjeta -->
+    <!-- banco -->
     <div class="card">
       <div class="card-header">
         <button type="button" class="btn btn-outline-success" id="btnAgregar">Agregar</button>
       </div>
       <div class="card-body">
-        <table class="table table-striped" id="tbl">
+        <table class="table table-striped table-dark" id="tbl">
           <thead>
             <tr>
-              <th>Marcas</th>
+              <th>Descripción</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -25,7 +25,7 @@ Marcas
       </table>
       </div>
     </div>
-    <!-- /tarjeta -->
+    <!-- /banco -->
 
     <!-- El formulario -->
     <div class="modal" id="modalFormulario">
@@ -42,9 +42,9 @@ Marcas
           <!-- Modal body -->
           <div class="modal-body">
             <div class="form-group">
-              <input type="hidden" id="txtIdMarca">
+              <input type="hidden" id="txtIdDocente">
               <label for="txtDescripcion">Descripción:</label>
-              <input type="text" class="form-control" placeholder="Ingrese alguna marca" id="txtDescripcion">
+              <input type="text" class="form-control" placeholder="Ingrese algun docente" id="txtDescripcion">
             </div>
           </div>
 
@@ -77,7 +77,7 @@ Marcas
       language: {
         url: "{{ url_for('static', filename='vendor/datatables/es-ES.json') }}",
       },
-      ajax:'/api/v1/marcas',
+      ajax:'/api/v1/docentes',
       columns: [
         { data: 'descripcion' },
         { data: function(row) {
@@ -92,9 +92,9 @@ Marcas
   const agregar = () => {
     $('#btnAgregar').on('click', function(){
       // Setear un título a modal
-      $('#modalTitle').text("Agregar una Marca");
+      $('#modalTitle').text("Agregar un docente");
       // inicia ventana modal
-      $('#txtIdMarca').val("");
+      $('#txtIdDocente').val("");
       $('#txtDescripcion').val("");
       $('#modalFormulario').modal();
     });
@@ -102,13 +102,13 @@ Marcas
 
   const guardar = () => {
     $('#btnGuardar').on('click', function() {
-      const idMarca = $('#txtIdMarca').val();
+      const idDocente = $('#txtIdDocente').val();
       const nuevaDescripcion = $('#txtDescripcion').val();
       const tabla = $('#tbl').DataTable();
 
-      if(idMarca) {
+      if(idDocente) {
         // update
-        fetch(`/api/v1/marcas/${idMarca}`, {
+        fetch(`/api/v1/docentes/${idDocente}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
@@ -118,17 +118,17 @@ Marcas
         .then(data => {
           if(data && !data.error && data.success) {
             tabla.ajax.reload();
-            Swal.fire("Actualizado", "La marca ha sido actualizada correctamente.", "success");
+            Swal.fire("Actualizado", "El docente ha sido actualizada correctamente.", "success");
           } else {
             Swal.fire(data.error);
           }
         }).catch(err => {
           console.error(err);
-          Swal.fire("Error", "Ocurrió un error al actualizar la marca.", "error");
+          Swal.fire("Error", "Ocurrió un error al actualizar el docente.", "error");
         });
       } else {
         // insert
-        fetch(`/api/v1/marcas`, {
+        fetch(`/api/v1/docentes`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -138,13 +138,13 @@ Marcas
         .then(data => {
           if(data && !data.error && data.success) {
             tabla.ajax.reload();
-            Swal.fire("Guardado", "La marca ha sido agregada correctamente.", "success");
+            Swal.fire("Guardado", "El docente ha sido agregada correctamente.", "success");
           } else {
             Swal.fire(data.error);
           }
         }).catch(err => {
           console.error(err);
-          Swal.fire("Error", "Ocurrió un error al guardar la marca.", "error");
+          Swal.fire("Error", "Ocurrió un error al guardar el docente.", "error");
         });
       }
       $('#txtDescripcion').val("");
@@ -162,13 +162,13 @@ Marcas
         cancelButtonText: `No`
       }).then((result) => {
         if (result.isConfirmed) {
-          $('#modalTitle').text("Editar una Marca");
+          $('#modalTitle').text("Editar un docente");
 
-          const idMarca = $(this).data('id');
-          $('#txtIdMarca').val(idMarca);
+          const idDocente = $(this).data('id');
+          $('#txtIdDocente').val(idDocente);
 
           // Necesitamos obtener la descripción del backend
-          fetch(`/api/v1/marcas/${idMarca}`, {
+          fetch(`/api/v1/docentes/${idDocente}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json'
@@ -186,7 +186,7 @@ Marcas
 
   const eliminar = () => {
     $('#tbl').on('click', 'button[name="btn_eliminar"]',function(){
-      const idMarca = $(this).data('id');
+      const idDocente = $(this).data('id');
       // Mostrar mensaje de confirmación usando sweetalert
       Swal.fire({
         title: "¿Deseas eliminar este registro?",
@@ -195,7 +195,7 @@ Marcas
         cancelButtonText: `No`
       }).then((result) => {
         if (result.isConfirmed) {
-          fetch(`/api/v1/marcas/${idMarca}`, {
+          fetch(`/api/v1/docentes/${idDocente}`, {
             method: 'DELETE',
             headers: {
               'Content-Type': 'application/json'
@@ -213,7 +213,7 @@ Marcas
               Swal.fire(data.error);
             }
           }).catch(err => {
-            Swal.fire("Error", "Ocurrió un error al eliminar la marca.", "error");
+            Swal.fire("Error", "Ocurrió un error al eliminar el docente.", "error");
           });
         }
       });
@@ -234,86 +234,3 @@ Marcas
   });
 </script>
 {% endblock %}
-
-
-
-
-
-
-
-
-
-
-
-<!-- <!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marcas</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-</head>
-<body>
-
-    <div class="container mt-4">
-        <h3>Listar Marcas</h3>
-
-        <!-- Boton agregar -->
-        <div class="row mb-2">
-          <div class="col col-md-4">
-            <a href="{{ url_for('marcas') }}" class="btn btn-primary">Agregar</a>
-          </div>
-        </div>
-    
-
-        
-        <div class="row">
-           
-            <div class="col col-md-12">
-
-                <table class="table table-striped">
-                    <thead>
-                      <tr>
-                        <th>Descripción</th>
-                        <th>Acciones</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {% for item in lista_marcas %}
-                      <tr>
-                        <td>{{ item['descripcion'] }}</td>
-                        <td>
-                          <div class="row">
-                            <div class="col col-md-2">
-                              <a href="{{ url_for('marcasEditar', id=item['id']) }}" class="btn btn-primary">Editar</a>
-                            </div>
-                            <div class="col col-md-2">
-                              <a href="{{ url_for('marcasEliminar', id=item['id']) }}" class="btn btn-danger">Eliminar</a>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                      {% endfor %}
-                    </tbody>
-                </table>
-
-            </div>
-            <!--  -->
-        </div>
-        <!--  -->
-
-        <div class="row mt-4 d-none" id="rowAlerta">
-            <div class="col col-md-12">
-                <div class="alert alert-success">
-                    <strong>Registro Exitoso!</strong>
-                    <div class="row" id="mostrarAlerta"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
-</body>
-</html> -->
