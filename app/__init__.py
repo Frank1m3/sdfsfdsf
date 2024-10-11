@@ -18,6 +18,7 @@ from app.rutas.referenciales.carrera.carrera_routes import carrmod
 from app.rutas.referenciales.entidad.entidad_routes import entmod
 from app.rutas.referenciales.materia.materia_routes import matmod
 from app.rutas.referenciales.vehiculo.vehiculo_routes import vehimod
+from app.rutas.referenciales.proveedor.proveedor_routes import promod
 
 
 
@@ -38,6 +39,7 @@ app.register_blueprint(carrmod, url_prefix=f'{modulo0}/carrera')
 app.register_blueprint(entmod, url_prefix=f'{modulo0}/entidad')
 app.register_blueprint(matmod, url_prefix=f'{modulo0}/materia')
 app.register_blueprint(vehimod, url_prefix=f'{modulo0}/vehiculo')
+app.register_blueprint(promod, url_prefix=f'{modulo0}/proveedor')
 
 
 
@@ -58,6 +60,7 @@ from app.rutas.referenciales.carrera.carrera_api import carrapi
 from app.rutas.referenciales.entidad.entidad_api import entapi
 from app.rutas.referenciales.materia.materia_api import matapi
 from app.rutas.referenciales.vehiculo.vehiculo_api import vehiapi
+from app.rutas.referenciales.proveedor.proveedor_api import proapi
 
 
 
@@ -90,3 +93,5 @@ app.register_blueprint(entapi, url_prefix=version1)
 app.register_blueprint(matapi, url_prefix=version1)
 
 app.register_blueprint(vehiapi, url_prefix=version1)
+
+app.register_blueprint(proapi, url_prefix=version1)
